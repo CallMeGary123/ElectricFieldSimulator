@@ -47,7 +47,7 @@ def clear_screen():
     CHARGES = []  # Reset CHARGES list
     listbox.config(listvariable=tk.Variable(window, CHARGES))
     canvas.delete("all")  # Clear the canvas
-    canvas.create_oval(111.2, 111.2, 688.8, 688.8, width = 4)
+    canvas.create_oval(255.6, 255.6, 544.4, 544.4, width = 4)
 
 def decide_marker(p):
     if p>0:
@@ -294,7 +294,7 @@ canvas = tk.Canvas(display_frame, width=796, height=796, background='white')
 
 canvas.bind('<Button-1>', get_mouse_coordinates)"""
 canvas.pack(padx=5, pady=5)
-canvas.create_oval(111.2, 111.2, 688.8, 688.8, width = 4)
+canvas.create_oval(255.6, 255.6, 544.4, 544.4, width = 4)
 listbox = tk.Listbox(
     charge_list_frame,
     listvariable=tk.Variable(window, CHARGES),
