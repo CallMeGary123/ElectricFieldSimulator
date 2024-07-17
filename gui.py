@@ -47,7 +47,7 @@ def clear_screen():
     CHARGES = []  # Reset CHARGES list
     listbox.config(listvariable=tk.Variable(window, CHARGES))
     canvas.delete("all")  # Clear the canvas
-    canvas.create_oval(255.6, 255.6, 544.4, 544.4, width = 4)
+    canvas.create_oval((20-USER_SETTINGS.get("radius")*100)*20, (20-USER_SETTINGS.get("radius")*100)*20, (20+USER_SETTINGS.get("radius")*100)*20, (20+USER_SETTINGS.get("radius")*100)*20, width = 4)
 
 def decide_marker(p):
     if p>0:
@@ -101,9 +101,9 @@ def run_sim():
     axs[1].set_title("E_y")
     axs[2].set_title("E_x-y")
 
-    circle1 = plt.Circle((0, 0), 7.22e-2, fill=False)
-    circle2 = plt.Circle((0, 0), 7.22e-2, fill=False)
-    circle3 = plt.Circle((0, 0), 7.22e-2, fill=False)
+    circle1 = plt.Circle((0, 0), USER_SETTINGS.get("radius"), fill=False)
+    circle2 = plt.Circle((0, 0), USER_SETTINGS.get("radius"), fill=False)
+    circle3 = plt.Circle((0, 0), USER_SETTINGS.get("radius"), fill=False)
     axs[0].add_patch(circle1)
     axs[1].add_patch(circle2)
     axs[2].add_patch(circle3)
@@ -256,7 +256,168 @@ def add_window():
         bg_color="transparent"
     )
     q_entry.pack(anchor="s", padx=5, pady=5,fill = "both")
-    
+
+def settings_window():
+    def save_settings():
+        USER_SETTINGS["radius"] = float(radius_entry.get())
+        USER_SETTINGS["npoints"] = int(npoints_entry.get())
+        USER_SETTINGS["linthresh"] = float(linthresh_entry.get())
+        USER_SETTINGS["linscale"] = float(linscale_entry.get())
+        USER_SETTINGS["vmin"] = float(vmin_entry.get())
+        USER_SETTINGS["vmax"] = float(vmax_entry.get())
+        clear_screen()
+        settings_window.destroy()
+
+    def reset():
+        radius_entry.delete(0, "end")
+        radius_entry.insert(0, DEFAULT_SETTINGS.get("radius"))
+        npoints_entry.delete(0, "end")
+        npoints_entry.insert(0, DEFAULT_SETTINGS.get("npoints"))
+        linthresh_entry.delete(0, "end")
+        linthresh_entry.insert(0, DEFAULT_SETTINGS.get("linthresh"))
+        linscale_entry.delete(0, "end")
+        linscale_entry.insert(0, DEFAULT_SETTINGS.get("linscale"))
+        vmin_entry.delete(0, "end")
+        vmin_entry.insert(0, DEFAULT_SETTINGS.get("vmin"))
+        vmax_entry.delete(0, "end")
+        vmax_entry.insert(0, DEFAULT_SETTINGS.get("vmax"))
+
+    settings_window = ctk.CTkToplevel(window)
+    settings_window.title("Settings")
+    settings_window.geometry(CenterWindowToDisplay(window, 400, 660, window._get_window_scaling()))
+    settings_window.resizable(False, False)
+    settings_window.grab_set()
+
+    window_title_frame = ctk.CTkFrame(
+        settings_window, bg_color="transparent", width=400, height=80
+    )
+    window_title_frame.pack(fill="both", padx=3, pady=3)
+
+    form_frame = ctk.CTkFrame(settings_window, bg_color="transparent")
+    form_frame.pack(fill="both", padx=3, pady=3, expand=True)
+
+    edit_util_frame = ctk.CTkFrame(settings_window, bg_color="transparent", width=400, height=40)
+    edit_util_frame.pack(fill="both", padx=3, pady=3)
+
+    window_title = ctk.CTkLabel(
+        window_title_frame, font=("Segoe UI Semibold", 25), text="Settings"
+    )
+    window_title.place(relx=0.5, rely=0.5, anchor="center")
+
+    radius_label = ctk.CTkLabel(
+        form_frame,
+        font=("Segoe UI Semibold", 18),
+        text="↓ Head radius ↓",
+        bg_color="transparent",
+    )
+    radius_label.pack(fill="x", expand=True)
+
+    radius_entry = ctk.CTkEntry(
+        form_frame,
+        font=("Segoe UI Semibold", 16),
+        justify="center",
+    )
+    radius_entry.insert(0, USER_SETTINGS.get("radius"))
+    radius_entry.pack(fill="x", expand=True, padx=5, pady=5)
+
+    simpoints_label = ctk.CTkLabel(
+        form_frame,
+        font=("Segoe UI Semibold", 18),
+        text="↓ Number of simulation points(O(n^2)) ↓",
+        bg_color="transparent",
+    )
+    simpoints_label.pack(fill="x", expand=True)
+
+    npoints_entry = ctk.CTkEntry(
+        form_frame,
+        font=("Segoe UI Semibold", 16),
+        justify="center",
+    )
+    npoints_entry.insert(0, USER_SETTINGS.get("npoints"))
+    npoints_entry.pack(fill="x", expand=True, padx=5, pady=5)
+
+    linthresh_label = ctk.CTkLabel(
+        form_frame,
+        font=("Segoe UI Semibold", 18),
+        text="↓ linthresh ↓",
+        bg_color="transparent",
+    )
+    linthresh_label.pack(fill="x", expand=True)
+
+    linthresh_entry = ctk.CTkEntry(
+        form_frame,
+        font=("Segoe UI Semibold", 16),
+        justify="center",
+    )
+    linthresh_entry.insert(0, USER_SETTINGS.get("linthresh"))
+    linthresh_entry.pack(fill="x", expand=True, padx=5, pady=5)
+
+    linscale_label = ctk.CTkLabel(
+        form_frame,
+        font=("Segoe UI Semibold", 18),
+        text="↓ linscale ↓",
+        bg_color="transparent",
+    )
+    linscale_label.pack(fill="x", expand=True)
+
+    linscale_entry = ctk.CTkEntry(
+        form_frame,
+        font=("Segoe UI Semibold", 16),
+        justify="center",
+    )
+    linscale_entry.insert(0, USER_SETTINGS.get("linscale"))
+    linscale_entry.pack(fill="x", expand=True, padx=5, pady=5)
+
+    vmin_label = ctk.CTkLabel(
+        form_frame,
+        font=("Segoe UI Semibold", 18),
+        text="↓ vmin ↓",
+        bg_color="transparent",
+    )
+    vmin_label.pack(fill="x", expand=True)
+
+    vmin_entry = ctk.CTkEntry(
+        form_frame,
+        font=("Segoe UI Semibold", 16),
+        justify="center",
+    )
+    vmin_entry.insert(0, USER_SETTINGS.get("vmin"))
+    vmin_entry.pack(fill="x", expand=True, padx=5, pady=5)
+
+    vmax_label = ctk.CTkLabel(
+        form_frame,
+        font=("Segoe UI Semibold", 18),
+        text="↓ vmax ↓",
+        bg_color="transparent",
+    )
+    vmax_label.pack(fill="x", expand=True)
+
+    vmax_entry = ctk.CTkEntry(
+        form_frame,
+        font=("Segoe UI Semibold", 16),
+        justify="center",
+    )
+    vmax_entry.insert(0, USER_SETTINGS.get("vmax"))
+    vmax_entry.pack(fill="x", expand=True, padx=5, pady=5)
+
+    cancel_button = ctk.CTkButton(
+        edit_util_frame,
+        text="Reset",
+        font=("Segoe UI Semibold", 15),
+        fg_color=("#dbdbdb", "#2b2b2b"),
+        hover_color=("#f9f9fa", "#343638"),
+        text_color="#c0382c",
+        border_color="#c0382c",
+        border_width=3,
+        command=reset,
+    )
+    cancel_button.pack(side="left", fill="x", expand=True, anchor="s", padx=5, pady=5)
+
+    save_button = ctk.CTkButton(
+        edit_util_frame, font=("Segoe UI Semibold", 15), text=" Save ", command=save_settings
+    )
+    save_button.pack(side="right", fill="x", expand=True, anchor="s", padx=5, pady=5)
+
 window = ctk.CTk()
 ctk.set_appearance_mode("light")
 window.title('Charges')
@@ -294,7 +455,7 @@ canvas = tk.Canvas(display_frame, width=796, height=796, background='white')
 
 canvas.bind('<Button-1>', get_mouse_coordinates)"""
 canvas.pack(padx=5, pady=5)
-canvas.create_oval(255.6, 255.6, 544.4, 544.4, width = 4)
+canvas.create_oval((20-USER_SETTINGS.get("radius")*100)*20, (20-USER_SETTINGS.get("radius")*100)*20, (20+USER_SETTINGS.get("radius")*100)*20, (20+USER_SETTINGS.get("radius")*100)*20, width = 4)
 listbox = tk.Listbox(
     charge_list_frame,
     listvariable=tk.Variable(window, CHARGES),
@@ -320,10 +481,13 @@ add = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), text="Add
 add.pack(side="top", padx=5, pady=5, fill="both")
 
 run = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), text="Run",command=run_sim)
-run.pack(side="bottom",padx=5, pady=5, fill="both")
+run.pack(side="top",padx=5, pady=5, fill="both")
 
 clear = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), command=clear_screen, text="Clear All")
 clear.pack(side="top", padx=5, pady=5, fill="both")
+
+settings = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), command=settings_window,text="Settings")
+settings.pack(side="top", padx=5, pady=5, fill="both")
 
 
 
