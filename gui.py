@@ -56,14 +56,20 @@ def decide_marker(p):
         return "$-$"
     else:
         return "$0$"
-    
 def run_sim():
+    progressbar.set(0)
+    window.update_idletasks()
+
     plt.rcParams['figure.figsize'] = USER_SETTINGS.get("figsize")
     source = []
     for charge in CHARGES:
         source.append(pc.StationaryCharge(position=(charge.get("X")*pow(10,-2), charge.get("Y")*pow(10,-2), 0), q=charge.get("q")))
     
     plt.rcParams['figure.figsize'] = USER_SETTINGS.get("figsize")
+
+    progressbar.set(0.1)
+    window.update_idletasks()
+
 
     simulation = pc.Simulation(source)
 
@@ -73,13 +79,25 @@ def run_sim():
     coordinates = np.linspace(-lim, lim, npoints)  # grid from -lim to lim
     x, y, z = np.meshgrid(coordinates, coordinates, 0, indexing="xy")  # z=0
 
+    progressbar.set(0.35)
+    window.update_idletasks()
+    
     # Calculate E field components at t=0
     E_x, E_y, E_z = simulation.calculate_E(t=0, x=x, y=y, z=z)
+
+    progressbar.set(0.65)
+    window.update_idletasks()
+    
+
     # Plot E_x, E_y, and E_z fields
     E_x_plane = E_x[:, :, 0]  # Create 2D array at z=0 for plotting
     E_y_plane = E_y[:, :, 0]
     E_z_plane = E_z[:, :, 0]
     comb = np.sqrt(E_x_plane**2 + E_y_plane**2)
+
+    progressbar.set(0.75)
+    window.update_idletasks()
+    
 
     # Create figs and axes, plot E components on log scale
     fig, axs = plt.subplots(1, 3, sharey=True)
@@ -90,6 +108,10 @@ def run_sim():
     im_0 = axs[0].imshow(E_x_plane, origin="lower", norm=norm1, extent=extent)
     im_1 = axs[1].imshow(E_y_plane, origin="lower", norm=norm1, extent=extent)
     im_2 = axs[2].imshow(comb, origin="lower", norm=norm2, extent=extent)
+
+    progressbar.set(0.9)
+    window.update_idletasks()
+    
 
     xticks = np.arange(-20e-2, 25e-2, 0.1)
     axs[0].set_xticks(xticks)
@@ -151,8 +173,12 @@ def run_sim():
 
     plt.subplots_adjust(wspace=0.4)
 
+    progressbar.set(1)
+    window.update_idletasks()
+
     plt.show()
-  
+
+    
 """
 def display_coordinates(event):
     global CHARGES
@@ -421,7 +447,7 @@ def settings_window():
 window = ctk.CTk()
 ctk.set_appearance_mode("light")
 window.title('Charges')
-window.geometry(CenterWindowToDisplay(window, 980, 660, window._get_window_scaling()))
+window.geometry(CenterWindowToDisplay(window, 980, 680, window._get_window_scaling()))
 window.resizable(False, False)
 
 CHARGES = []
@@ -439,13 +465,19 @@ buttons_list_frame = ctk.CTkFrame(app_util_frame, width=300, height=160, bg_colo
 buttons_list_frame.pack(anchor="center",side = "bottom", padx=5, pady=3,fill = "both")
 
 display_frame = ctk.CTkFrame(window, width=650, height=650, bg_color="transparent")
-display_frame.pack(padx=5, pady=5, side="left",fill = "both",expand=True)
+display_frame.pack(padx=5, pady=5, side="left",fill = "both",expand=True,anchor="n")
 
 
 title = ctk.CTkLabel(
     app_title_frame, font=("Segoe UI Semibold", 25), text="Electric Field Simulator"
 )
 title.place(relx=0.5, rely=0.5, anchor="center")
+
+global progressbar
+progressbar = ctk.CTkProgressBar(display_frame, orientation="horizontal",mode='determinate')
+progressbar.pack(padx=5, pady=5, side='bottom',fill='both',expand=True)
+progressbar.set(100)
+
 # Create a canvas and bind the mouse click event
 canvas = tk.Canvas(display_frame, width=796, height=796, background='white')
 """def get_mouse_coordinates(event):
@@ -454,7 +486,7 @@ canvas = tk.Canvas(display_frame, width=796, height=796, background='white')
     print(f"Mouse coordinates (centered): x = {x}, y = {y}")
 
 canvas.bind('<Button-1>', get_mouse_coordinates)"""
-canvas.pack(padx=5, pady=5)
+canvas.pack(padx=5, pady=5, side='top')
 canvas.create_oval((20-USER_SETTINGS.get("radius")*100)*20, (20-USER_SETTINGS.get("radius")*100)*20, (20+USER_SETTINGS.get("radius")*100)*20, (20+USER_SETTINGS.get("radius")*100)*20, width = 4)
 listbox = tk.Listbox(
     charge_list_frame,
