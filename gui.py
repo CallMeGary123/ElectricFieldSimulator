@@ -42,6 +42,12 @@ def check_duplicate(coordinates,x,y):
             return True
         else:
             return False
+        
+def check_value(val):
+    if val > 20 or val < -20:
+        return True
+    else:
+        return False        
 def clear_screen():
     global CHARGES
     CHARGES = []  # Reset CHARGES list
@@ -191,19 +197,24 @@ def display_coordinates(event):
 def add_window():
 
     def save():
-        x = float(x_entry.get())
-        y = float(y_entry.get()) 
-        q = float(q_entry.get())
-        if check_duplicate(CHARGES,x,y) is True:
-            tk.messagebox.showerror('Duplicate Error', 'Error: A charge already exists at this coordinates!\nchnage coordinates or edit/delete the existing charge')
-        else:
-            CHARGES.append({"X": x,"Y": y,"q": q})
-            listbox.config(listvariable=tk.Variable(window, CHARGES))
-            center_x = canvas.winfo_reqwidth() / 2
-            center_y = canvas.winfo_reqheight() / 2
-            canvas.create_oval((x*20) + center_x - 5, center_y - (y*20) + 5, (x*20) + center_x + 5, center_y - (y*20) - 5,fill="black")
-            add_window.destroy()
-
+        try:
+            x = float(x_entry.get())
+            y = float(y_entry.get()) 
+            q = float(q_entry.get())
+            if check_value(x) is True or check_value(y) is True:
+                tk.messagebox.showerror('Value Error', 'Error: One of the following checks faild\n -X must be between -20 and 20\n -Y must be between -20 and 20')
+            elif check_duplicate(CHARGES,x,y) is True:
+                tk.messagebox.showerror('Duplicate Error', 'Error: A charge already exists at this coordinates!\nchnage coordinates or edit/delete the existing charge')
+            else:
+                CHARGES.append({"X": x,"Y": y,"q": q})
+                listbox.config(listvariable=tk.Variable(window, CHARGES))
+                center_x = canvas.winfo_reqwidth() / 2
+                center_y = canvas.winfo_reqheight() / 2
+                canvas.create_oval((x*20) + center_x - 5, center_y - (y*20) + 5, (x*20) + center_x + 5, center_y - (y*20) - 5,fill="black")
+                add_window.destroy()
+        except:
+            tk.messagebox.showerror('Value Error', 'Error: Float conversion failed please make sure all inputs are number\n*scientific representation is allowed')
+    
     add_window = ctk.CTkToplevel(window)
     add_window.title("Adding new stationary charge")
     add_window.geometry(CenterWindowToDisplay(window, 340, 150, window._get_window_scaling()))
