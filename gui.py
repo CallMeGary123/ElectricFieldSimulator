@@ -67,6 +67,11 @@ def run_sim():
     window.update_idletasks()
 
     plt.rcParams['figure.figsize'] = USER_SETTINGS.get("figsize")
+    plt.rcParams['figure.subplot.left'] = 0.05
+    plt.rcParams['figure.subplot.bottom'] = 0.04
+    plt.rcParams['figure.subplot.right'] = 0.92
+    plt.rcParams['figure.subplot.top'] = 1.0
+    
     source = []
     for charge in CHARGES:
         source.append(pc.StationaryCharge(position=(charge.get("X")*pow(10,-2), charge.get("Y")*pow(10,-2), 0), q=charge.get("q")))
