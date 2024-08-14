@@ -295,15 +295,27 @@ def add_window():
     q_entry.pack(anchor="s", padx=5, pady=5,fill = "both")
 
 def settings_window():
+    tk.messagebox.showwarning('Warning', 'Changing radius will clear all the charges')
     def save_settings():
-        USER_SETTINGS["radius"] = float(radius_entry.get())
-        USER_SETTINGS["npoints"] = int(npoints_entry.get())
-        USER_SETTINGS["linthresh"] = float(linthresh_entry.get())
-        USER_SETTINGS["linscale"] = float(linscale_entry.get())
-        USER_SETTINGS["vmin"] = float(vmin_entry.get())
-        USER_SETTINGS["vmax"] = float(vmax_entry.get())
-        clear_screen()
-        settings_window.destroy()
+        cls = False
+        if float(USER_SETTINGS["radius"]) != float(radius_entry.get()):
+            cls = True
+        if float(radius_entry.get()) > 0.18:
+            tk.messagebox.showerror('Value Error', 'Error:The following checks faild\n -Radius must be smaller than 0.18')
+        else:
+            try:
+                USER_SETTINGS["radius"] = float(radius_entry.get())
+                USER_SETTINGS["npoints"] = int(npoints_entry.get())
+                USER_SETTINGS["linthresh"] = float(linthresh_entry.get())
+                USER_SETTINGS["linscale"] = float(linscale_entry.get())
+                USER_SETTINGS["vmin"] = float(vmin_entry.get())
+                USER_SETTINGS["vmax"] = float(vmax_entry.get())
+                if cls:
+                    clear_screen()
+                settings_window.destroy()
+            except:
+                tk.messagebox.showerror('Value Error', 'Error:The following checks faild\n -All values besides \'Number of simulation points\' must be a float \n -Number of simulation points must be an ineger (floats will be rounded to the nearest integer)')    
+        
 
     def reset():
         radius_entry.delete(0, "end")
