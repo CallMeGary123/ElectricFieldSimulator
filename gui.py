@@ -111,7 +111,7 @@ def run_sim():
     
 
     # Create figs and axes, plot E components on log scale
-    fig, axs = plt.subplots(1, 3, sharey=True)
+    fig, axs = plt.subplots(1, 3, sharey=True, sharex=True)
     norm1 = mpl.colors.SymLogNorm(linthresh=USER_SETTINGS.get("linthresh"), linscale=USER_SETTINGS.get("linscale"), vmin=USER_SETTINGS.get("vmin"), vmax=USER_SETTINGS.get("vmax"))
     norm2 = mpl.colors.SymLogNorm(linthresh=USER_SETTINGS.get("linthresh"), linscale=USER_SETTINGS.get("linscale"), vmin=0, vmax=USER_SETTINGS.get("vmax"))
     extent = [-lim, lim, -lim, lim]
@@ -124,10 +124,13 @@ def run_sim():
     window.update_idletasks()
     
 
-    xticks = np.arange(-20e-2, 25e-2, 0.1)
+    xticks = np.arange(-20e-2, 25e-2, 0.05)
     axs[0].set_xticks(xticks)
     axs[1].set_xticks(xticks)
     axs[2].set_xticks(xticks)
+    axs[0].tick_params(axis='x', rotation=45)
+    axs[1].tick_params(axis='x', rotation=45)
+    axs[2].tick_params(axis='x', rotation=45)
     # Add labels
 
     axs[0].set_title("E_x")
@@ -537,10 +540,10 @@ listbox.config(yscrollcommand = scroll.set)
 scroll.pack(fill="y", expand=True, pady=5)
 
 # Create a button to run the convex hull computation
-add = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), text="Add",command=add_window)
+add = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), text="Add charge",command=add_window)
 add.pack(side="top", padx=5, pady=5, fill="both")
 
-run = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), text="Run",command=run_sim)
+run = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), text="Run simulation",command=run_sim)
 run.pack(side="top",padx=5, pady=5, fill="both")
 
 clear = ctk.CTkButton(buttons_list_frame,font=("Segoe UI Semibold", 15), command=clear_screen, text="Clear All")
