@@ -372,8 +372,6 @@ def add_window(event = None):
 
 
 def settings_window(event = None):
-    tk.messagebox.showwarning("Warning", "Changing radius will clear all the charges")
-
     def save_settings(event = None):
         cls = False
         if float(USER_SETTINGS["radius"]) != float(radius_entry.get()):
@@ -439,6 +437,14 @@ def settings_window(event = None):
         window_title_frame, font=("Segoe UI Semibold", 25), text="Settings"
     )
     window_title.place(relx=0.5, rely=0.5, anchor="center")
+
+    radius_warning_label = ctk.CTkLabel(
+        form_frame,
+        font=("Segoe UI Semibold", 12),
+        text="WARNING: Changing head radius will clear all the charges",
+        bg_color="transparent",
+    )
+    radius_warning_label.pack(fill="x", expand=True)
 
     radius_label = ctk.CTkLabel(
         form_frame,
