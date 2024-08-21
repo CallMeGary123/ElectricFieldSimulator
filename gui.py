@@ -55,7 +55,7 @@ def check_value(val):
         return False
 
 
-def clear_screen():
+def clear_screen(event = None):
     global CHARGES
     CHARGES = []  # Reset CHARGES list
     listbox.config(listvariable=tk.Variable(window, CHARGES))
@@ -78,7 +78,7 @@ def decide_marker(p):
         return "$0$"
 
 
-def run_sim():
+def run_sim(event = None):
     progressbar.set(0)
     window.update_idletasks()
 
@@ -241,8 +241,7 @@ def display_coordinates(event):
 
 
 def add_window(event = None):
-
-    def save():
+    def save(event = None):
         try:
             x = float(x_entry.get())
             y = float(y_entry.get())
@@ -361,7 +360,9 @@ def add_window(event = None):
     )
     q_entry.pack(anchor="s", padx=5, pady=5, fill="both")
 
-    if event != None:
+    add_window.bind('<Return>', save)
+
+    if event != None and int(event.type )== 4:
         center_x = canvas.winfo_reqwidth() / 2
         center_y = canvas.winfo_reqheight() / 2
         x = (event.x - center_x) / 20
@@ -370,10 +371,10 @@ def add_window(event = None):
         y_entry.insert(0,y)
 
 
-def settings_window():
+def settings_window(event = None):
     tk.messagebox.showwarning("Warning", "Changing radius will clear all the charges")
 
-    def save_settings():
+    def save_settings(event = None):
         cls = False
         if float(USER_SETTINGS["radius"]) != float(radius_entry.get()):
             cls = True
@@ -555,7 +556,7 @@ def settings_window():
         command=save_settings,
     )
     save_button.pack(side="right", fill="x", expand=True, anchor="s", padx=5, pady=5)
-
+    settings_window.bind('<Return>', save_settings)
 
 window = ctk.CTk()
 ctk.set_appearance_mode("light")
@@ -665,6 +666,9 @@ settings = ctk.CTkButton(
 )
 settings.pack(side="top", padx=5, pady=5, fill="both")
 
-
+window.bind('<Control-a>',add_window)
+window.bind('<Control-c>',clear_screen)
+window.bind('<Control-r>',run_sim)
+window.bind('<F1>',settings_window)
 # Start the main event loop
 window.mainloop()
