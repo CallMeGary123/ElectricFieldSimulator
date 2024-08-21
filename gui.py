@@ -240,7 +240,7 @@ def display_coordinates(event):
 """
 
 
-def add_window():
+def add_window(event = None):
 
     def save():
         try:
@@ -360,6 +360,14 @@ def add_window():
         bg_color="transparent",
     )
     q_entry.pack(anchor="s", padx=5, pady=5, fill="both")
+
+    if event != None:
+        center_x = canvas.winfo_reqwidth() / 2
+        center_y = canvas.winfo_reqheight() / 2
+        x = (event.x - center_x) / 20
+        y = (center_y - event.y) / 20
+        x_entry.insert(0,x)
+        y_entry.insert(0,y)
 
 
 def settings_window():
@@ -593,12 +601,9 @@ progressbar.set(100)
 
 # Create a canvas and bind the mouse click event
 canvas = tk.Canvas(display_frame, width=796, height=796, background="white")
-"""def get_mouse_coordinates(event):
-    x = event.x - canvas.winfo_width() // 2
-    y = canvas.winfo_height() // 2 - event.y 
-    print(f"Mouse coordinates (centered): x = {x}, y = {y}")
 
-canvas.bind('<Button-1>', get_mouse_coordinates)"""
+canvas.bind('<Button-1>', add_window)
+
 canvas.pack(padx=5, pady=5, side="top")
 canvas.create_oval(
     (20 - USER_SETTINGS.get("radius") * 100) * 20,
