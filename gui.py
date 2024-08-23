@@ -585,7 +585,7 @@ def settings_window(event = None):
     save_button = ctk.CTkButton(
         edit_util_frame,
         font=("Segoe UI Semibold", 15),
-        text=" Save ",
+        text="Save",
         command=save_settings,
     )
     save_button.pack(side="right", fill="x", expand=True, anchor="s", padx=5, pady=5)
@@ -593,7 +593,7 @@ def settings_window(event = None):
 
 window = ctk.CTk()
 ctk.set_appearance_mode("light")
-window.title("Charges")
+window.title("Electric Field Simulator")
 window.geometry(CenterWindowToDisplay(window, 980, 680, window._get_window_scaling()))
 window.resizable(False, False)
 
@@ -670,7 +670,7 @@ scroll.pack(fill="y", expand=True, pady=5)
 add = ctk.CTkButton(
     buttons_list_frame,
     font=("Segoe UI Semibold", 15),
-    text="Add charge",
+    text="Add Charge",
     command=add_window,
 )
 add.pack(side="top", padx=5, pady=5, fill="both")
@@ -686,7 +686,7 @@ open_file.pack(side="top", padx=5, pady=5, fill="both")
 run = ctk.CTkButton(
     buttons_list_frame,
     font=("Segoe UI Semibold", 15),
-    text="Run simulation",
+    text="Run Simulation",
     command=run_sim,
 )
 run.pack(side="top", padx=5, pady=5, fill="both")
