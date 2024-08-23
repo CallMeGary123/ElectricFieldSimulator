@@ -80,6 +80,7 @@ def decide_marker(p):
 
 def load_csv(event = None):
     global CHARGES
+    clear_screen()
     csv_file = tk.filedialog.askopenfile(mode ='r', filetypes =[('CSV file', '*.csv')])
     csv_data = pd.read_csv(csv_file)
     if list(csv_data.columns) != ['X','Y','q']:
