@@ -56,7 +56,7 @@ def check_value(val):
         return False
 
 
-def clear_screen(event = None):
+def clear_screen(event=None):
     global CHARGES
     CHARGES = []  # Reset CHARGES list
     listbox.config(listvariable=tk.Variable(window, CHARGES))
@@ -78,34 +78,41 @@ def decide_marker(p):
     else:
         return "$0$"
 
-def load_csv(event = None):
+
+def load_csv(event=None):
     global CHARGES
     clear_screen()
-    csv_file = tk.filedialog.askopenfile(mode ='r', filetypes =[('CSV file', '*.csv')])
+    csv_file = tk.filedialog.askopenfile(mode="r", filetypes=[("CSV file", "*.csv")])
     csv_data = pd.read_csv(csv_file)
-    if list(csv_data.columns) != ['X','Y','q']:
-        tk.messagebox.showerror('Error', 'CSV file has invalid columns (should be \'X,Y,q\')')
-        return 1   
-    charge_list = csv_data.to_dict(orient = 'records')
+    if list(csv_data.columns) != ["X", "Y", "q"]:
+        tk.messagebox.showerror(
+            "Error", "CSV file has invalid columns (should be 'X,Y,q')"
+        )
+        return 1
+    charge_list = csv_data.to_dict(orient="records")
     for c in charge_list:
-        for _,v in c.items():
+        for _, v in c.items():
             if type(v) != float:
-                tk.messagebox.showerror('Value Error', "Error: Float conversion failed please make sure all inputs are number\n*scientific representation is allowed")
-                return 1    
+                tk.messagebox.showerror(
+                    "Value Error",
+                    "Error: Float conversion failed please make sure all inputs are number\n*scientific representation is allowed",
+                )
+                return 1
     CHARGES = charge_list
     listbox.config(listvariable=tk.Variable(window, CHARGES))
     center_x = canvas.winfo_reqwidth() / 2
     center_y = canvas.winfo_reqheight() / 2
     for C in CHARGES:
         canvas.create_oval(
-            (C['X'] * 20) + center_x - 5,
-            center_y - (C['Y'] * 20) + 5,
-            (C['X'] * 20) + center_x + 5,
-            center_y - (C['Y'] * 20) - 5,
+            (C["X"] * 20) + center_x - 5,
+            center_y - (C["Y"] * 20) + 5,
+            (C["X"] * 20) + center_x + 5,
+            center_y - (C["Y"] * 20) - 5,
             fill="black",
         )
 
-def run_sim(event = None):
+
+def run_sim(event=None):
     progressbar.set(0)
     window.update_idletasks()
 
@@ -267,8 +274,8 @@ def display_coordinates(event):
 """
 
 
-def add_window(event = None):
-    def save(event = None):
+def add_window(event=None):
+    def save(event=None):
         try:
             x = float(x_entry.get())
             y = float(y_entry.get())
@@ -387,19 +394,19 @@ def add_window(event = None):
     )
     q_entry.pack(anchor="s", padx=5, pady=5, fill="both")
 
-    add_window.bind('<Return>', save)
+    add_window.bind("<Return>", save)
 
-    if event != None and int(event.type )== 4:
+    if event != None and int(event.type) == 4:
         center_x = canvas.winfo_reqwidth() / 2
         center_y = canvas.winfo_reqheight() / 2
         x = (event.x - center_x) / 20
         y = (center_y - event.y) / 20
-        x_entry.insert(0,x)
-        y_entry.insert(0,y)
+        x_entry.insert(0, x)
+        y_entry.insert(0, y)
 
 
-def settings_window(event = None):
-    def save_settings(event = None):
+def settings_window(event=None):
+    def save_settings(event=None):
         cls = False
         if float(USER_SETTINGS["radius"]) != float(radius_entry.get()):
             cls = True
@@ -589,7 +596,8 @@ def settings_window(event = None):
         command=save_settings,
     )
     save_button.pack(side="right", fill="x", expand=True, anchor="s", padx=5, pady=5)
-    settings_window.bind('<Return>', save_settings)
+    settings_window.bind("<Return>", save_settings)
+
 
 window = ctk.CTk()
 ctk.set_appearance_mode("light")
@@ -636,7 +644,7 @@ progressbar.set(100)
 # Create a canvas and bind the mouse click event
 canvas = tk.Canvas(display_frame, width=796, height=796, background="white")
 
-canvas.bind('<Button-1>', add_window)
+canvas.bind("<Button-1>", add_window)
 
 canvas.pack(padx=5, pady=5, side="top")
 canvas.create_oval(
@@ -707,10 +715,10 @@ settings = ctk.CTkButton(
 )
 settings.pack(side="top", padx=5, pady=5, fill="both")
 
-window.bind('<Control-a>',add_window)
-window.bind('<Control-c>',clear_screen)
-window.bind('<Control-r>',run_sim)
-window.bind('<Control-l>',load_csv)
-window.bind('<F1>',settings_window)
+window.bind("<Control-a>", add_window)
+window.bind("<Control-c>", clear_screen)
+window.bind("<Control-r>", run_sim)
+window.bind("<Control-l>", load_csv)
+window.bind("<F1>", settings_window)
 # Start the main event loop
 window.mainloop()
