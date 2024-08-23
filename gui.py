@@ -4,6 +4,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pycharge as pc
+import pandas as pd
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 DEFAULT_SETTINGS = {
@@ -77,6 +78,31 @@ def decide_marker(p):
     else:
         return "$0$"
 
+def load_csv(event = None):
+    global CHARGES
+    csv_file = tk.filedialog.askopenfile(mode ='r', filetypes =[('CSV file', '*.csv')])
+    csv_data = pd.read_csv(csv_file)
+    if list(csv_data.columns) != ['X','Y','q']:
+        tk.messagebox.showerror('Error', 'CSV file has invalid columns (should be \'X,Y,q\')')
+        return 1   
+    charge_list = csv_data.to_dict(orient = 'records')
+    for c in charge_list:
+        for _,v in c.items():
+            if type(v) != float:
+                tk.messagebox.showerror('Value Error', "Error: Float conversion failed please make sure all inputs are number\n*scientific representation is allowed")
+                return 1    
+    CHARGES = charge_list
+    listbox.config(listvariable=tk.Variable(window, CHARGES))
+    center_x = canvas.winfo_reqwidth() / 2
+    center_y = canvas.winfo_reqheight() / 2
+    for C in CHARGES:
+        canvas.create_oval(
+            (C['X'] * 20) + center_x - 5,
+            center_y - (C['Y'] * 20) + 5,
+            (C['X'] * 20) + center_x + 5,
+            center_y - (C['Y'] * 20) - 5,
+            fill="black",
+        )
 
 def run_sim(event = None):
     progressbar.set(0)
@@ -648,6 +674,14 @@ add = ctk.CTkButton(
 )
 add.pack(side="top", padx=5, pady=5, fill="both")
 
+open_file = ctk.CTkButton(
+    buttons_list_frame,
+    font=("Segoe UI Semibold", 15),
+    text="Load CSV",
+    command=load_csv,
+)
+open_file.pack(side="top", padx=5, pady=5, fill="both")
+
 run = ctk.CTkButton(
     buttons_list_frame,
     font=("Segoe UI Semibold", 15),
@@ -675,6 +709,7 @@ settings.pack(side="top", padx=5, pady=5, fill="both")
 window.bind('<Control-a>',add_window)
 window.bind('<Control-c>',clear_screen)
 window.bind('<Control-r>',run_sim)
+window.bind('<Control-l>',load_csv)
 window.bind('<F1>',settings_window)
 # Start the main event loop
 window.mainloop()
