@@ -1,6 +1,5 @@
 <h1 style="text-align: center;">Electric Field Simulator</h1>
-<p>This program is designed to provide a gui to simulate electric field in brain using <a href="https://github.com/MatthewFilipovich/pycharge">PyCharge</a>.</p>
-
+<p>This program is designed to provide a gui to simulate electric fields in brain using <a href="https://github.com/MatthewFilipovich/pycharge">PyCharge</a>.<br>*note that the calculations are carried out in vacuum space</p>
 <p><b>*DISCLAIMER</b>: The ability to put a charge inside the circle which represents the head is a design choice to allow more experimentation.</p>
 
 <h2>Content</h2>
