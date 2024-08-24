@@ -1,5 +1,7 @@
 <h1 style="text-align: center;">Electric Field Simulator</h1>
-<p>This program is designed to provide a gui to simulate electric field in brain using <a href="https://github.com/MatthewFilipovich/pycharge">PyCharge</a></p>
+<p>This program is designed to provide a gui to simulate electric field in brain using <a href="https://github.com/MatthewFilipovich/pycharge">PyCharge</a>.</p>
+
+<p><b>*DISCLAIMER</b>: The ability to put a charge inside the circle which represents the head is a design choice to allow more experimentation.</p>
 
 <h2>Content</h2>
 <ul>
@@ -22,7 +24,7 @@
 <p>First make sure you have Python installed.<br>You can execute <code>python --version</code> to check if you have python installed, if you don't have Python installed you can install it from <a href="https://www.python.org/">this link</a>.</p>
 
 <h4>Step 2 - Libraries</h4>
-<p>Execute <code>pip install -r requirements.txt</code> to get all the required libraries/</p>
+<p>Execute <code>pip install -r requirements.txt</code> to get all the required libraries.</p>
 
 <h4>Step 3 - Running The Program</h4>
 <p>Execute <code>python gui.py</code> to run the program.</p>
@@ -44,7 +46,7 @@
 <center>
 <img src= "screenshots\4.png">
 </center>
-<p>You can use the "Add Charge" button or simply click on where you want to add a charge and to do this however <b>this method is not recommended.</b>
+<p>You can use the "Add Charge" button or simply click on where you want to add a charge and to do this however <b>this method is not recommended</b>.
 <p>Instead use "Load CSV" <b>(Recommended)</b> to load all the charges at once. To do this create a CSV file with columns <code>X,Y,q</code> and load it into the program. you can see an example csv in the repository</p>
 
 <center>
@@ -71,27 +73,27 @@
     </tr>
     <tr>
         <td>Head Radius</td>
-        <td>Radius of the head in <b>meter</b></td>
+        <td>Radius of the head in <b>meter</b>.</td>
     </tr>
     <tr>
         <td>Number of simulation points</td>
-        <td>Number of simulation points per axis (100 would result in 10,000 simulation points in total)</td>
+        <td>Number of simulation points per axis. (100 would result in 10,000 simulation points in total)</td>
     </tr>
     <tr>
         <td>linthresh</td>
-        <td>Plotting parameter. Please refer to <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.SymLogNorm.html">matplotlib documentation</a></td>
+        <td>Plotting parameter. Please refer to <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.SymLogNorm.html">matplotlib documentation</a>.</td>
     </tr>
     <tr>
         <td>linscale</td>
-        <td>Plotting parameter. Please refer to <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.SymLogNorm.html">matplotlib documentation</a></td>
+        <td>Plotting parameter. Please refer to <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.SymLogNorm.html">matplotlib documentation</a>.</td>
     </tr>
     <tr>
         <td>vmin</td>
-        <td>Plotting parameter. Please refer to <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.SymLogNorm.html">matplotlib documentation</a></td>
+        <td>Plotting parameter. Please refer to <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.SymLogNorm.html">matplotlib documentation</a>.</td>
     </tr>
     <tr>
         <td>vmax</td>
-        <td>Plotting parameter. Please refer to <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.SymLogNorm.html">matplotlib documentation</a></td>
+        <td>Plotting parameter. Please refer to <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.SymLogNorm.html">matplotlib documentation</a>.</td>
     </tr>
 </table>
 
@@ -103,29 +105,29 @@
     </tr>
     <tr>
         <td>Enter</td>
-        <td>Save (where "Save" button is present)</td>
+        <td>Save (where "Save" button is present).</td>
     </tr>
     <tr>
         <td>Ctrl + A</td>
-        <td>Add charge</td>
+        <td>Add charge.</td>
     </tr>
     <tr>
         <td>Ctrl + C</td>
-        <td>Clear all charges</td>
+        <td>Clear all charges.</td>
     </tr>
     <tr>
         <td>Ctrl + R</td>
-        <td>Run simulation</td>
+        <td>Run simulation.</td>
     </tr>
     <tr>
         <td>Ctrl + L</td>
-        <td>Load CSV file</td>
+        <td>Load CSV file.</td>
     </tr>
     <tr>
         <td>F1</td>
-        <td>Open settings</td>
+        <td>Open settings.</td>
     </tr>
 </table>
 
 <h2 id = "issues">Issues</h2>
-<p>Please refer to issues tab to see a list of current identified issues</p>
+<p>Please refer to issues tab to see a list of current identified issues.</p>
