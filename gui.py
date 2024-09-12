@@ -89,15 +89,15 @@ def load_csv(event=None):
             "Error", "CSV file has invalid columns (should be 'X,Y,q')"
         )
         return 1
-    charge_list = csv_data.to_dict(orient="records")
-    for c in charge_list:
-        for _, v in c.items():
-            if type(v) != float:
+    try:
+        csv_data = csv_data.astype("float")
+    except ValueError:
                 tk.messagebox.showerror(
                     "Value Error",
-                    "Error: Float conversion failed please make sure all inputs are number\n*scientific representation is allowed",
+                    "Error: Float conversion failed please make sure all inputs are numerical\n*scientific representation is allowed",
                 )
-                return 1
+                return 1      
+    charge_list = csv_data.to_dict(orient="records")
     CHARGES = charge_list
     listbox.config(listvariable=tk.Variable(window, CHARGES))
     center_x = canvas.winfo_reqwidth() / 2
@@ -306,7 +306,7 @@ def add_window(event=None):
         except:
             tk.messagebox.showerror(
                 "Value Error",
-                "Error: Float conversion failed please make sure all inputs are number\n*scientific representation is allowed",
+                "Error: Float conversion failed please make sure all inputs are numerical\n*scientific representation is allowed",
             )
 
     add_window = ctk.CTkToplevel(window)
