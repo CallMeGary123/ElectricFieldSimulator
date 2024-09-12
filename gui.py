@@ -84,11 +84,13 @@ def load_csv(event=None):
     clear_screen()
     csv_file = tk.filedialog.askopenfile(mode="r", filetypes=[("CSV file", "*.csv")])
     csv_data = pd.read_csv(csv_file)
+
     if list(csv_data.columns) != ["X", "Y", "q"]:
         tk.messagebox.showerror(
             "Error", "CSV file has invalid columns (should be 'X,Y,q')"
         )
         return 1
+    
     try:
         csv_data = csv_data.astype("float")
     except ValueError:
@@ -96,7 +98,15 @@ def load_csv(event=None):
                     "Value Error",
                     "Error: Float conversion failed please make sure all inputs are numerical\n*scientific representation is allowed",
                 )
-                return 1      
+                return 1
+
+    if ((csv_data["X"] > 20).any()) or ((csv_data["X"] < -20).any()) or ((csv_data["Y"] > 20).any()) or ((csv_data["Y"] < -20).any()):
+                tk.messagebox.showerror(
+                    "Value Error",
+                    "Error: One of the following checks faild\n -X must be between -20 and 20\n -Y must be between -20 and 20",
+                )
+                return 1
+
     charge_list = csv_data.to_dict(orient="records")
     CHARGES = charge_list
     listbox.config(listvariable=tk.Variable(window, CHARGES))
