@@ -272,18 +272,6 @@ def run_sim(event=None):
 
     plt.show()
 
-
-"""
-def display_coordinates(event):
-    global CHARGES
-    x, y = event.x / 40, (canvas.winfo_reqheight() - event.y) / 40
-    add_window()
-    CHARGES.append({"X": x,"Y": y,"q": -1})
-    canvas.create_oval(event.x-5, event.y-5, event.x+5, event.y+5, fill='black')
-    listbox.config(listvariable=tk.Variable(window, CHARGES))
-"""
-
-
 def add_window(event=None):
     def save(event=None):
         try:
