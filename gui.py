@@ -90,22 +90,27 @@ def load_csv(event=None):
             "Error", "CSV file has invalid columns (should be 'X,Y,q')"
         )
         return 1
-    
+
     try:
         csv_data = csv_data.astype("float")
     except ValueError:
-                tk.messagebox.showerror(
-                    "Value Error",
-                    "Error: Float conversion failed please make sure all inputs are numerical\n*scientific representation is allowed",
-                )
-                return 1
+        tk.messagebox.showerror(
+            "Value Error",
+            "Error: Float conversion failed please make sure all inputs are numerical\n*scientific representation is allowed",
+        )
+        return 1
 
-    if ((csv_data["X"] > 20).any()) or ((csv_data["X"] < -20).any()) or ((csv_data["Y"] > 20).any()) or ((csv_data["Y"] < -20).any()):
-                tk.messagebox.showerror(
-                    "Value Error",
-                    "Error: One of the following checks faild\n -X must be between -20 and 20\n -Y must be between -20 and 20",
-                )
-                return 1
+    if (
+        ((csv_data["X"] > 20).any())
+        or ((csv_data["X"] < -20).any())
+        or ((csv_data["Y"] > 20).any())
+        or ((csv_data["Y"] < -20).any())
+    ):
+        tk.messagebox.showerror(
+            "Value Error",
+            "Error: One of the following checks faild\n -X must be between -20 and 20\n -Y must be between -20 and 20",
+        )
+        return 1
 
     charge_list = csv_data.to_dict(orient="records")
     CHARGES = charge_list
@@ -271,6 +276,7 @@ def run_sim(event=None):
     window.update_idletasks()
 
     plt.show()
+
 
 def add_window(event=None):
     def save(event=None):
